@@ -115,6 +115,9 @@ if not os.path.isfile(results.sfile):
  print('File {} not found!'.format(results.sfile))
  sys.exit(0)
 
+if results.pldir[-1:]!="/":
+  results.pldir+= "/"
+
 if not os.path.isdir(results.pldir):
  print('Folder {} not found!'.format(results.pldir))
  sys.exit(0)
