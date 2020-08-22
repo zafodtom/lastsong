@@ -14,26 +14,20 @@ This script generate Volumio playlist to folder `/data/playlist` from file `/var
 # Usage
 
 `./python3 lastsong.py`
-
+```
 -c, --changelog - Show changelog 
-
 -h, --help - Show help 
-
 -v, --version - Show version 
-
 -s, --source-file - Define source file 
-
 -p, --playlist-dir - Define destination directory 
-
--i, --ignore-timer - Ignore timer for waiting after mpc update 
-
+-i, --ignore-timer - Ignoring timer for waiting after mpc update 
 -o, --one-playlist - Write only one playlist named RecentlyAdded 
-
+```
 Default sources are located in: 
 
 * `/data/playlist` - Directory with custom playlists
 
-* `/var/log/mpd.log` - Log file of volumio with last actions. **!!!After reboot this file are clear!!!**
+* `/var/log/mpd.log` - Log file of volumio with last actions. **!!!After reboot this file are empty!!!**
 
 # Install
 
@@ -47,7 +41,7 @@ add line
 
 `50 23 * * * python3 /home/volumio/lastsong.py`
 
-This command starts lastsong.py every day in 23:50
+This command start lastsong.py every day in 23:50
 
 # Examples
 
