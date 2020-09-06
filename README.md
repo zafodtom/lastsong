@@ -7,7 +7,7 @@ The script is composed of various parts found on the Internet and some my ideas.
 
 # Version
 
-0.3
+0.4
 
 # Dependencies
 
