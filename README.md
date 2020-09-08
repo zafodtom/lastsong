@@ -3,8 +3,6 @@ Python script for Volumio to generate playlists with last added songs.
 
 This script generate Volumio playlist to folder `/data/playlist` from file `/var/log/mpd.log`. Every weekday in single file. Script automaticly start `mpc update` to update your volumio library. 
 
-The script is composed of various parts found on the Internet and some my ideas. The basis is used from https://github.com/suuuehgi/m3u2volumio
-
 # Version
 
 0.4
