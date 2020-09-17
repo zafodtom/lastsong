@@ -8,6 +8,7 @@ import time
 from collections import OrderedDict
 import datetime
 import argparse
+import urllib.request
 
 ########################################
 ############### Versions ###############
@@ -169,7 +170,10 @@ for pth in data:
  title = title.split('-')[-1]
  title = title.split('.')[-2]
 
- output.append('{"service":"mpd","title":"' + title.strip() + '","artist":"' + artist.strip() + '","album":"' + album.strip() + '","uri":"' + pth.strip() + '"}')
+ # TODO:  what value for cacheid should we use ?
+ albumart = "/albumart?cacheid=531&web="+urllib.request.pathname2url(artist)+"/extralarge&path=%2Fmnt%2FNAS%2Fmusic-nas%2F"+urllib.request.pathname2url(artist)+"&icon=fa-tags&metadata=true"
+
+ output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title.strip() + '","artist":"' + artist.strip() + '","album":"' + album.strip() + '","uri":"' + pth.strip() + '"}')
 
 o.write(','.join(output))
 o.write(']')
