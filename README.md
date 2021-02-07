@@ -35,7 +35,7 @@ Copy file `lastsong.py` to `/home/volumio/`
 
 For right function must be locales set to UTF-8. 
 
-`dpkg-reconfigure localses`
+`dpkg-reconfigure locales`
 
 and select your language and UTF-8
 
