@@ -39,13 +39,15 @@ For right function must be locales set to UTF-8.
 
 and select your language and UTF-8
 
-Recomended is added to cron. 
+Recomended is added to cron. This is no longer installed in Volumio 2 by default to add:
+
+`apt-get update && apt-get install -y cron`
 
 `crontab -e`
 
 add line
 
-`50 23 * * * python3 /home/volumio/lastsong.py`
+`50 23 * * * /usr/bin/python3 /home/volumio/lastsong.py`
 
 This command start lastsong.py every day in 23:50
 
