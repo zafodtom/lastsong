@@ -3,10 +3,6 @@ Python script for Volumio to generate playlists consisting of recently added son
 
 This script generates a Volumio playlist to the folder `/data/playlist` from file added info in `/var/log/mpd.log`. The script automatically starts `mpc update` to update your Volumio library. 
 
-# Version
-
-0.4
-
 # Dependencies
 
 * `python3` which can be installed using the command `sudo apt python3`
@@ -63,24 +59,24 @@ Usual use of this script. Read mpd.log, select todays added files and create pla
 
 **[Example 2]**
 
-`./python3 lastsong.py -o`
+`./python3 lastsong.py -o -b Path/to/library`
 
 This use create single playlist file named RecentyAdded. 
 
 **[Example 3]**
 
-`./python3 lastsong.py -p /home/volumio/MyPlaylistDir/`
+`./python3 lastsong.py -p /home/volumio/MyPlaylistDir/ -b Path/to/library`
 
 Change destination folder. 
 
 **[Example 4]**
 
-`./python3 lastsong.py -i`
+`./python3 lastsong.py -i -b Path/to/library`
 
 Skip waiting time after update mpd. **!!!Script create playlist before volumio update mpd.log!!!**
 
 **[Example 5]**
 
-`./python3 lastsong.py -s /home/volumio/MyOwnLogFile.log`
+`./python3 lastsong.py -s /home/volumio/MyOwnLogFile.log -b Path/to/library`
 
 Change source file. 
