@@ -187,7 +187,7 @@ for pth in data:
  # a precaution for now
  artistfrompath = pth.split('/')[2]
 
- albumart = "/albumart?web="+urllib.request.pathname2url(artistfrompath)+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
+ albumart = "/albumart?web="+artist+"/"+album+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
  # get info from the metadata rather than the path alone
  output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title  + '","artist":"' + artist  + '","album":"' + album + '","uri":"' + pth.strip() + '"}')
 
