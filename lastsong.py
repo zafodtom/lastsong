@@ -8,6 +8,7 @@ import time
 from collections import OrderedDict
 import datetime
 import argparse
+import re
 
 ########################################
 ############### Versions ###############
@@ -128,13 +129,27 @@ if not results.ignoretimer:
 ########################################
 ############ Parse mpd.log #############
 ########################################
+# mpd.log empties on reboot, and dates
+# do not include year, so if uptime is 
+# more than a year (!) it will get confused
 
-data = []
-with open(results.sfile, encoding='utf-8', mode='r') as myfile:
- for myline in myfile:
-  if myline.find('added') != -1:
-   if myline.find(datetime.datetime.today().strftime('%h %d')) != -1:
-    data.append(myline.split('added ',1)[1])
+
+data=[]
+dates = []
+pattern= ': added'
+if results.oneplst:
+    daysback = 7 # If the single playlist flag is added , look multiple days back. (make command line parameter?
+else:
+    daysback = 1 
+for i in range(daysback):
+    dates.append((datetime.datetime.today()-datetime.timedelta(days=i)).strftime('%h %d'))
+
+# match anything added in the last 'daysback' days
+with open(results.sfile, encoding='utf-8', mode='r') as file:
+    for line in file:
+        if re.search(pattern, line) and re.search('|'.join(dates), line):
+            data.append(line.split('added ',1)[1])
+
 
 ########################################
 ########## Write volumio file ##########
