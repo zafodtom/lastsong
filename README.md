@@ -47,7 +47,7 @@ add line
 
 `0 * * * * /usr/bin/python3 -p /home/volumio/lastsong.py -o -b /Path/To/Library`
 
-Changing /Path/To/Library to point to your library. This command start lastsong.py every hour
+Changing /Path/To/Library to point to your library. This command updates the playlist every hour.
 
 # Examples
 
