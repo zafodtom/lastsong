@@ -10,6 +10,7 @@ This script generates a Volumio playlist to the folder `/data/playlist` from fil
 # Dependencies
 
 * `python3` which can be installed using the command `sudo apt python3`
+* `mutagen` ID3 module for reading the ID3 tags
 
 # Usage
 
@@ -20,6 +21,7 @@ This script generates a Volumio playlist to the folder `/data/playlist` from fil
 -v, --version - Show version 
 -s, --source-file - Define source file 
 -p, --playlist-dir - Define destination directory 
+-b, --library-base - The base of the music library
 -i, --ignore-timer - Ignoring timer for waiting after mpc update 
 -o, --one-playlist - Write only one playlist named RecentlyAdded 
 ```
