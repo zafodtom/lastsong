@@ -73,7 +73,7 @@ Change destination folder.
 
 `./python3 lastsong.py -i -b Path/to/library`
 
-Skip waiting time after update mpd. **!!!Script create playlist before volumio update mpd.log!!!**
+Skip waiting time after update mpd. **!!!Script creates playlist without Volumio updating mpd.log!!!**
 
 **[Example 5]**
 
