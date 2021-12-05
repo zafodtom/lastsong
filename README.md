@@ -1,7 +1,7 @@
 # lastsong.py
-Python script for Volumio to generate playlists with recently added songs. 
+Python script for Volumio to generate playlists consisting of recently added songs. 
 
-This script generates a Volumio playlist to the folder `/data/playlist` from file added info from `/var/log/mpd.log`. The script automatically starts `mpc update` to update your Volumio library. 
+This script generates a Volumio playlist to the folder `/data/playlist` from file added info in `/var/log/mpd.log`. The script automatically starts `mpc update` to update your Volumio library. 
 
 # Version
 
