@@ -9,6 +9,9 @@ from collections import OrderedDict
 import datetime
 import argparse
 import re
+import urllib.request
+from mutagen.easyid3 import EasyID3
+from urllib.parse import quote
 
 ########################################
 ############### Versions ###############
@@ -133,7 +136,6 @@ if not results.ignoretimer:
 # do not include year, so if uptime is 
 # more than a year (!) it will get confused
 
-
 data=[]
 dates = []
 pattern= ': added'
@@ -144,9 +146,10 @@ else:
 for i in range(daysback):
     dates.append((datetime.datetime.today()-datetime.timedelta(days=i)).strftime('%h %d'))
 
-# match anything added in the last 'daysback' days
+# match anything added in the last 'daysback' days - Also, reverse order, so most recent are at the top 
 with open(results.sfile, encoding='utf-8', mode='r') as file:
-    for line in file:
+    lines = file.readlines()
+    for line in reversed(lines):
         if re.search(pattern, line) and re.search('|'.join(dates), line):
             data.append(line.split('added ',1)[1])
 
@@ -166,25 +169,24 @@ o.write('[')
 output = []
 
 ########################################
-######### Parse info from path #########
+######### Parse info from ID3 file #####
 ########################################
+librarybase = "/NAS/peachy/" # This should be a parameter 
+
 
 for pth in data:
- artist = pth.split('/')[2]
+ path = '/mnt/'+pth.strip()
+ audio = EasyID3(path)
+ artist = ''.join(audio['artist'])
+ album = ''.join(audio['album'])
+ title = ''.join(audio['title'])
 
- if '/' in pth and pth.count('/') > 2:
-  album = pth.split('/')[3]
-  if ' - ' in album and album.count(' - ') > 0:
-   album = album.split(' - ')[1]
-   album = album.split('(')[0]
- else:
-  album=''
+ # a precaution for now
+ artistfrompath = pth.split('/')[2]
 
- title = pth.split('/')[-1]
- title = title.split('-')[-1]
- title = title.split('.')[-2]
-
- output.append('{"service":"mpd","title":"' + title.strip() + '","artist":"' + artist.strip() + '","album":"' + album.strip() + '","uri":"' + pth.strip() + '"}')
+ albumart = "/albumart?web="+urllib.request.pathname2url(artistfrompath)+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
+ # get info from the metadata rather than the path alone
+ output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title  + '","artist":"' + artist  + '","album":"' + album + '","uri":"' + pth.strip() + '"}')
 
 o.write(','.join(output))
 o.write(']')
