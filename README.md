@@ -45,7 +45,7 @@ Recomended is added to cron. This is no longer installed in Volumio 2 by default
 
 add line
 
-`0 * * * * /usr/bin/python3 /home/volumio/lastsong.py`
+`0 * * * * /usr/bin/python3 -p /home/volumio/lastsong.py -o -b /Path/To/Library`
 
 This command start lastsong.py every hour
 
