@@ -1,4 +1,4 @@
-# Volumio 'Recently Added' playlist generator
+# Volumio 2 'Recently Added' playlist generator
 
 A Python script for to be ran on a Volumio server to generate playlists consisting of recently added songs. 
 
