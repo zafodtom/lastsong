@@ -76,6 +76,10 @@ parser.add_argument('-p', '--playlist-dir', default='/data/playlist/',
 		    action='store', dest='pldir',
                     help='Destination directory')
 
+parser.add_argument('-b', '--librarybase', default='/NAS/peachy/',
+            action='store', dest='librarybase',
+                    help='The base URL of the library')
+
 parser.add_argument('-i', '--ignore-timer',
 		    action='store_true', default=False,
                     dest='ignoretimer',
@@ -140,7 +144,7 @@ data=[]
 dates = []
 pattern= ': added'
 if results.oneplst:
-    daysback = 7 # If the single playlist flag is added , look multiple days back. (make command line parameter?
+    daysback = 28 # If the single playlist flag is added , look multiple days back. (make command line parameter?
 else:
     daysback = 1 
 for i in range(daysback):
@@ -171,9 +175,8 @@ output = []
 ########################################
 ######### Parse info from ID3 file #####
 ########################################
-librarybase = "/NAS/peachy/" # This should be a parameter 
 
-
+librarybase = results.librarybase
 for pth in data:
  path = '/mnt/'+pth.strip()
  audio = EasyID3(path)
