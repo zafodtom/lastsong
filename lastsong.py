@@ -177,20 +177,42 @@ output = []
 ########################################
 
 librarybase = results.librarybase
+
 for pth in data:
- path = '/mnt/'+pth.strip()
- audio = EasyID3(path)
- artist = ''.join(audio['artist'])
- album = ''.join(audio['album'])
- title = ''.join(audio['title'])
+    path = '/mnt/'+pth.strip()
+    if os.path.isfile(path) == False:
+            print('File is missing')
+    else:
+        try:
+            audio = EasyID3(path)
+            artist = ''.join(audio['artist'])
+            album = ''.join(audio['album'])
+            title = ''.join(audio['title'])
+            # a precaution for now
+            artistfrompath = pth.split('/')[2]
+            albumart = "/albumart?web="+artist+"/"+album+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
+            output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title  + '","artist":"' + artist  + '","album":"' + album + '","uri":"' + pth.strip() + '"}')
+            # get info from the metadata rather than the path alone
+        except Exception as e:
+            print(e)
+            # there must have been an issue, eg no tags, revert to path parsing
+            artist = pth.split('/')[2]
+            artistfrompath = artist
+            if '/' in pth and pth.count('/') > 2:
+                album = pth.split('/')[3]
+            if ' - ' in album and album.count(' - ') > 0:
+                album = album.split(' - ')[1]
+                album = album.split('(')[0]
+            else:
+                album=''
 
- # a precaution for now
- artistfrompath = pth.split('/')[2]
-
- albumart = "/albumart?web="+artist+"/"+album+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
- # get info from the metadata rather than the path alone
- output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title  + '","artist":"' + artist  + '","album":"' + album + '","uri":"' + pth.strip() + '"}')
-
+            title = pth.split('/')[-1]
+            title = title.split('-')[-1]
+            title = title.split('.')[-2]
+            albumart = "/albumart?web="+artist+"/"+album+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
+            output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title  + '","artist":"' + artist  + '","album":"' + album + '","uri":"' + pth.strip() + '"}')
+        except:
+            pass
 o.write(','.join(output))
 o.write(']')
 o.close()
