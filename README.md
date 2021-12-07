@@ -45,31 +45,21 @@ Changing /Path/To/Library to point to your library. This command updates the pla
 
 # Examples
 
-- 1
-
 `./python3 lastsong.py`
 
 Usual use of this script. Read mpd.log, select todays added files and create playlist 1-Monday in folder /data/playlist/. 
-
-## Example 2
 
 `./python3 lastsong.py -o -b Path/to/library`
 
 Creates a single playlist file named `RecentyAdded`. 
 
-## Example 3 
-
 `./python3 lastsong.py -p /home/volumio/MyPlaylistDir/ -b Path/to/library`
 
 Custom destination folder. 
 
-## Example 4
-
 `./python3 lastsong.py -i -b Path/to/library`
 
 Run without updating the library first
-
-## Example 5
 
 `./python3 lastsong.py -s /home/volumio/MyOwnLogFile.log -b Path/to/library`
 
