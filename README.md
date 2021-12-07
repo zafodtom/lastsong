@@ -11,14 +11,15 @@ This is all done over a ssh connection to your server. To enable ssh, point your
 
 Connect to your server over ssh, clone this repository:
  `git clone https://github.com/veebch/lastsong.git`
+and install the dependencies.
 
-# Dependencies
+## Dependencies
 
 * `python3` which can be installed using the command `sudo apt python3` on volumio 2
 * `pip3` which can be installed using `sudo apt-get install python3-pip`
 * `mutagen` ID3 module for reading the ID3 tags which can be installed using `pip3 install mutagen`
 
-# Usage
+## Usage
 move into the cloned directory: `cd lastsong`
 
 To run: 
@@ -40,7 +41,7 @@ Default sources are located in:
 
 * `/var/log/mpd.log` - Log file of volumio with last actions. **This empties on reboot**
 
-# Install
+# Automating
 
 Cron is a nice easy way to schedule runs/updates. This is no longer installed in Volumio by default. To add it:
 
