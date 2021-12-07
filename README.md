@@ -31,15 +31,7 @@ Default sources are located in:
 
 # Install
 
-Copy file `lastsong.py` to `/home/volumio/`
-
-For right function must be locales set to UTF-8. 
-
-`dpkg-reconfigure locales`
-
-and select your language and UTF-8
-
-Recomended is added to cron. This is no longer installed in Volumio 2 by default. To add it:
+Cron is a nice easy way to schedule runs/updates. This is no longer installed in Volumio by default. To add it:
 
 `apt-get update && apt-get install -y cron`
 
