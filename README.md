@@ -7,7 +7,7 @@ This script generates a Volumio playlist to the folder `/data/playlist` from fil
 This is all done over a ssh connection to your server. To enable ssh, point your browser at `http://volumio.local/dev` and enable ssh. You can then connect from a terminal (or powershell) using the command `ssh volumio@volumio.local` password is **volumio**.
 
 
-# Instllation
+# Installation
 
 Connect to your server over ssh, clone this repository:
  `git clone https://github.com/veebch/lastsong.git`
