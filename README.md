@@ -39,7 +39,7 @@ Cron is a nice easy way to schedule runs/updates. This is no longer installed in
 
 add line
 
-`0 * * * * /usr/bin/python3 -p /home/volumio/lastsong.py -o -b /Path/To/Library`
+`0 * * * * /usr/bin/python3 /home/volumio/lastsong.py -o -b /Path/To/Library`
 
 Changing /Path/To/Library to point to your library. This command updates the playlist every hour.
 
