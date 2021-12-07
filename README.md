@@ -4,7 +4,7 @@ A Python script to be ran on a Volumio server that generates playlists consistin
 
 This script generates a Volumio playlist to the folder `/data/playlist` from file added info in `/var/log/mpd.log`. The script automatically starts `mpc update` to update your Volumio library. 
 
-This is all done over a ssh connection to your server. To enable ssh, point your browser at `http://volumio.local/dev` and enable ssh. You can then connect from a terminal/powershell using the command `ssh volumio@volumio.local` password is **volumio**.
+This is all done over a ssh connection to your server. To enable ssh, point your browser at `http://volumio.local/dev` and enable ssh. You can then connect from a terminal (or powershell) using the command `ssh volumio@volumio.local` password is **volumio**.
 
 # Dependencies
 
