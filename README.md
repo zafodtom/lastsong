@@ -45,7 +45,7 @@ Changing /Path/To/Library to point to your library. This command updates the pla
 
 # Examples
 
-## Example 1
+- 1
 
 `./python3 lastsong.py`
 
@@ -63,7 +63,7 @@ Creates a single playlist file named `RecentyAdded`.
 
 Custom destination folder. 
 
-**[Example 4]**
+## Example 4
 
 `./python3 lastsong.py -i -b Path/to/library`
 
