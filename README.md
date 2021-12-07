@@ -6,6 +6,12 @@ This script generates a Volumio playlist to the folder `/data/playlist` from fil
 
 This is all done over a ssh connection to your server. To enable ssh, point your browser at `http://volumio.local/dev` and enable ssh. You can then connect from a terminal (or powershell) using the command `ssh volumio@volumio.local` password is **volumio**.
 
+
+# Instllation
+
+Connect to your server over ssh, clone this repository:
+ `git clone https://github.com/veebch/lastsong.git`
+
 # Dependencies
 
 * `python3` which can be installed using the command `sudo apt python3` on volumio 2
@@ -13,6 +19,9 @@ This is all done over a ssh connection to your server. To enable ssh, point your
 * `mutagen` ID3 module for reading the ID3 tags which can be installed using `pip3 install mutagen`
 
 # Usage
+move into the cloned directory: `cd lastsong`
+
+To run: 
 
 `./python3 lastsong.py`
 ```
