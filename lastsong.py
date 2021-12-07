@@ -181,7 +181,7 @@ librarybase = results.librarybase
 for pth in data:
     path = '/mnt/'+pth.strip()
     if os.path.isfile(path) == False:
-            print('File is missing')
+            print('The audio file is missing')
     else:
         try:
             audio = EasyID3(path)
@@ -198,19 +198,11 @@ for pth in data:
             # there must have been an issue, eg no tags, revert to path parsing
             artist = pth.split('/')[2]
             artistfrompath = artist
-            if '/' in pth and pth.count('/') > 2:
-                album = pth.split('/')[3]
-            if ' - ' in album and album.count(' - ') > 0:
-                album = album.split(' - ')[1]
-                album = album.split('(')[0]
-            else:
-                album=''
-
+            album=''        
             title = pth.split('/')[-1]
-            title = title.split('-')[-1]
             title = title.split('.')[-2]
-            albumart = "/albumart?web="+artist+"/"+album+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
-            output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title  + '","artist":"' + artist  + '","album":"' + album + '","uri":"' + pth.strip() + '"}')
+            albumart = ''
+            output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title.strip()+ '","artist":"' + artist.strip()  + '","album":"' + album.strip() + '","uri":"' + pth.strip() + '"}')
         except:
             pass
 o.write(','.join(output))
