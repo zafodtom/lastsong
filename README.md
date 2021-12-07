@@ -7,7 +7,7 @@ This script generates a Volumio playlist to the folder `/data/playlist` from fil
 # Dependencies
 
 * `python3` which can be installed using the command `sudo apt python3` on volumio 2
-* `pip3' which can be installed using `sudo apt-get install python3-pip`
+* `pip3` which can be installed using `sudo apt-get install python3-pip`
 * `mutagen` ID3 module for reading the ID3 tags which can be installed using `pip3 install mutagen`
 
 # Usage
