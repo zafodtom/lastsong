@@ -1,6 +1,6 @@
 # Volumio 3 (and 2) 'Recently Added' playlist generator
 
-A Python script to be ran on a Volumio server that generates playlists consisting of recently added songs. 
+A Python script to be ran on a Volumio server that generates/ maintains playlists consisting of recently added songs. 
 
 This script generates a Volumio playlist to the folder `/data/playlist` from file added info in `/var/log/mpd.log`. The script automatically starts `mpc update` to update your Volumio library. 
 
@@ -29,7 +29,7 @@ Default sources are located in:
 
 * `/data/playlist` - Directory with custom playlists
 
-* `/var/log/mpd.log` - Log file of volumio with last actions. **This empties on reboot**, so we maintain an 'added on' file to ensure persistence of memory. 
+* `/var/log/mpd.log` - Log file of volumio with last actions. **This empties on reboot**
 
 # Install
 
