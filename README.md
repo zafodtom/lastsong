@@ -1,12 +1,12 @@
-# Volumio 2 'Recently Added' playlist generator
+# Volumio 3 (and 2) 'Recently Added' playlist generator
 
-A Python script to be ran on a Volumio 2 server that generates playlists consisting of recently added songs. 
+A Python script to be ran on a Volumio server that generates playlists consisting of recently added songs. 
 
 This script generates a Volumio playlist to the folder `/data/playlist` from file added info in `/var/log/mpd.log`. The script automatically starts `mpc update` to update your Volumio library. 
 
 # Dependencies
 
-* `python3` which can be installed using the command `sudo apt python3`
+* `python3` which can be installed using the command `sudo apt python3` on volumio 2
 * `pip3' which can be installed using `sudo apt-get install python3-pip`
 * `mutagen` ID3 module for reading the ID3 tags which can be installed using `pip3 install mutagen`
 
