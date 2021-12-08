@@ -155,8 +155,8 @@ with open(results.sfile, encoding='utf-8', mode='r') as file:
     lines = file.readlines()
     for line in reversed(lines):
         if re.search(pattern, line) and re.search('|'.join(dates), line):
-            data.append(line.split('added ',1)[1])
-
+            data.append(line.split('added ',1)[1].strip())
+print(data)
 
 ########################################
 ########## Write volumio file ##########
