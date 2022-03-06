@@ -1,17 +1,28 @@
-# lastsong.py
-Python script for Volumio to generate playlists with last added songs. 
+# Volumio 3 (and 2) 'Recently Added' playlist generator
 
-This script generate Volumio playlist to folder `/data/playlist` from file `/var/log/mpd.log`. Every weekday in single file. Script automaticly start `mpc update` to update your volumio library. 
+A Python script to be ran on a Volumio server that generates/ maintains playlists consisting of recently added songs. 
 
-# Version
+This script generates a Volumio playlist to the folder `/data/playlist` from file added info in `/var/log/mpd.log`. The script automatically starts `mpc update` to update your Volumio library. 
 
-0.4
+This is all done over a ssh connection to your server. To enable ssh, point your browser at `http://volumio.local/dev` and enable ssh. You can then connect from a terminal (or powershell) using the command `ssh volumio@volumio.local` password is **volumio**.
 
-# Dependencies
 
-* `python3`
+# Installation
 
-# Usage
+Connect to your server over ssh, clone this repository:
+ `git clone https://github.com/veebch/lastsong.git`
+and install the dependencies.
+
+## Dependencies
+
+* `python3` which can be installed using the command `sudo apt python3` on volumio 2
+* `pip3` which can be installed using `sudo apt-get install python3-pip`
+* `mutagen` ID3 module for reading the ID3 tags which can be installed using `pip3 install mutagen`
+
+## Usage
+move into the cloned directory: `cd lastsong`
+
+To run: 
 
 `./python3 lastsong.py`
 ```
@@ -20,6 +31,7 @@ This script generate Volumio playlist to folder `/data/playlist` from file `/var
 -v, --version - Show version 
 -s, --source-file - Define source file 
 -p, --playlist-dir - Define destination directory 
+-b, --library-base - The base of the music library
 -i, --ignore-timer - Ignoring timer for waiting after mpc update 
 -o, --one-playlist - Write only one playlist named RecentlyAdded 
 ```
@@ -27,56 +39,40 @@ Default sources are located in:
 
 * `/data/playlist` - Directory with custom playlists
 
-* `/var/log/mpd.log` - Log file of volumio with last actions. **!!!After reboot this file are empty!!!**
+* `/var/log/mpd.log` - Log file of volumio with last actions. **This empties on reboot**
 
-# Install
+# Automating
 
-Copy file `lastsong.py` to `/home/volumio/`
+Cron is a nice easy way to schedule runs/updates. This is no longer installed in Volumio by default. To add it:
 
-For right function must be locales set to UTF-8. 
-
-`dpkg-reconfigure locales`
-
-and select your language and UTF-8
-
-Recomended is added to cron. 
+`apt-get update && apt-get install -y cron`
 
 `crontab -e`
 
 add line
 
-`50 23 * * * python3 /home/volumio/lastsong.py`
+`0 * * * * /usr/bin/python3 /home/volumio/lastsong/lastsong.py -o -b /Path/To/Library`
 
-This command start lastsong.py every day in 23:50
+Changing /Path/To/Library to point to your library. This command updates the playlist every hour.
 
 # Examples
-
-**[Example 1]**
 
 `./python3 lastsong.py`
 
 Usual use of this script. Read mpd.log, select todays added files and create playlist 1-Monday in folder /data/playlist/. 
 
-**[Example 2]**
+`./python3 lastsong.py -o -b Path/to/library`
 
-`./python3 lastsong.py -o`
+Creates a single playlist file named `RecentyAdded`. 
 
-This use create single playlist file named RecentyAdded. 
+`./python3 lastsong.py -p /home/volumio/MyPlaylistDir/ -b Path/to/library`
 
-**[Example 3]**
+Custom destination folder. 
 
-`./python3 lastsong.py -p /home/volumio/MyPlaylistDir/`
+`./python3 lastsong.py -i -b Path/to/library`
 
-Change destination folder. 
+Run without updating the library first
 
-**[Example 4]**
+`./python3 lastsong.py -s /home/volumio/MyOwnLogFile.log -b Path/to/library`
 
-`./python3 lastsong.py -i`
-
-Skip waiting time after update mpd. **!!!Script create playlist before volumio update mpd.log!!!**
-
-**[Example 5]**
-
-`./python3 lastsong.py -s /home/volumio/MyOwnLogFile.log`
-
-Change source file. 
+Change the source log file. 

@@ -8,6 +8,10 @@ import time
 from collections import OrderedDict
 import datetime
 import argparse
+import re
+import urllib.request
+from mutagen.easyid3 import EasyID3
+from urllib.parse import quote
 
 ########################################
 ############### Versions ###############
@@ -72,6 +76,10 @@ parser.add_argument('-p', '--playlist-dir', default='/data/playlist/',
 		    action='store', dest='pldir',
                     help='Destination directory')
 
+parser.add_argument('-b', '--librarybase', default='/NAS/peachy/',
+            action='store', dest='librarybase',
+                    help='The base URL of the library')
+
 parser.add_argument('-i', '--ignore-timer',
 		    action='store_true', default=False,
                     dest='ignoretimer',
@@ -128,13 +136,27 @@ if not results.ignoretimer:
 ########################################
 ############ Parse mpd.log #############
 ########################################
+# mpd.log empties on reboot, and dates
+# do not include year, so if uptime is 
+# more than a year (!) it will get confused
 
-data = []
-with open(results.sfile, encoding='utf-8', mode='r') as myfile:
- for myline in myfile:
-  if myline.find('added') != -1:
-   if myline.find(datetime.datetime.today().strftime('%h %d')) != -1:
-    data.append(myline.split('added ',1)[1])
+data=[]
+dates = []
+pattern= ': added'
+if results.oneplst:
+    daysback = 28 # If the single playlist flag is added , look multiple days back. (make command line parameter?
+else:
+    daysback = 1 
+for i in range(daysback):
+    dates.append((datetime.datetime.today()-datetime.timedelta(days=i)).strftime('%h %d'))
+
+# match anything added in the last 'daysback' days - Also, reverse order, so most recent are at the top 
+with open(results.sfile, encoding='utf-8', mode='r') as file:
+    lines = file.readlines()
+    for line in reversed(lines):
+        if re.search(pattern, line) and re.search('|'.join(dates), line):
+            data.append(line.split('added ',1)[1].strip())
+print(data)
 
 ########################################
 ########## Write volumio file ##########
@@ -151,26 +173,38 @@ o.write('[')
 output = []
 
 ########################################
-######### Parse info from path #########
+######### Parse info from ID3 file #####
 ########################################
 
+librarybase = results.librarybase
+
 for pth in data:
- artist = pth.split('/')[2]
-
- if '/' in pth and pth.count('/') > 2:
-  album = pth.split('/')[3]
-  if ' - ' in album and album.count(' - ') > 0:
-   album = album.split(' - ')[1]
-   album = album.split('(')[0]
- else:
-  album=''
-
- title = pth.split('/')[-1]
- title = title.split('-')[-1]
- title = title.split('.')[-2]
-
- output.append('{"service":"mpd","title":"' + title.strip() + '","artist":"' + artist.strip() + '","album":"' + album.strip() + '","uri":"' + pth.strip() + '"}')
-
+    path = '/mnt/'+pth.strip()
+    if os.path.isfile(path) == False:
+            print('The audio file is missing')
+    else:
+        try:
+            audio = EasyID3(path)
+            artist = ''.join(audio['artist'])
+            album = ''.join(audio['album'])
+            title = ''.join(audio['title'])
+            # a precaution for now
+            artistfrompath = pth.split('/')[2]
+            albumart = "/albumart?web="+artist+"/"+album+"/extralarge&path="+quote(librarybase)+urllib.request.pathname2url(artistfrompath)+"&icon=fa-tags&metadata=true"
+            output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title  + '","artist":"' + artist  + '","album":"' + album + '","uri":"' + pth.strip() + '"}')
+            # get info from the metadata rather than the path alone
+        except Exception as e:
+            print(e)
+            # there must have been an issue, eg no tags, revert to path parsing
+            artist = pth.split('/')[2]
+            artistfrompath = artist
+            album=''        
+            title = pth.split('/')[-1]
+            title = title.split('.')[-2]
+            albumart = ''
+            output.append('{"service":"mpd","albumart":"'+albumart+'","title":"' + title.strip()+ '","artist":"' + artist.strip()  + '","album":"' + album.strip() + '","uri":"' + pth.strip() + '"}')
+        except:
+            pass
 o.write(','.join(output))
 o.write(']')
 o.close()
